@@ -8,10 +8,21 @@ export interface User {
     photo: string;
   }
   
+  export interface Profile {
+    id: string;
+    name: string;
+    age: number;
+    bio: string;
+    photo: string;
+    interests: string[];
+    distance: number;
+  }
+  
   export interface Match {
     id: string;
     userId: string;
-    targetUserId: string;
+    profileId: string;
     status: 'pending' | 'accepted' | 'rejected';
     createdAt: string;
+    profile: Profile;
   }
