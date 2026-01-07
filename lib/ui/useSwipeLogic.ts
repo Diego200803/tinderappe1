@@ -2,6 +2,7 @@
 
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 import { Gesture } from 'react-native-gesture-handler';
+import { useEffect } from 'react';
 
 interface UseSwipeLogicProps {
   onSwipeRight: () => void;
@@ -17,6 +18,12 @@ export const useSwipeLogic = ({
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
 
+  // Resetear valores cuando se monta el componente
+  useEffect(() => {
+    translateX.value = 0;
+    translateY.value = 0;
+  }, []);
+
   const gesture = Gesture.Pan()
     .onUpdate((event) => {
       translateX.value = event.translationX;
@@ -30,11 +37,17 @@ export const useSwipeLogic = ({
         // Swipe Right - Guardar
         translateX.value = withTiming(500, { duration: 300 }, () => {
           runOnJS(onSwipeRight)();
+          // Resetear después de completar
+          translateX.value = 0;
+          translateY.value = 0;
         });
       } else if (shouldSwipeLeft) {
         // Swipe Left - Descartar
         translateX.value = withTiming(-500, { duration: 300 }, () => {
           runOnJS(onSwipeLeft)();
+          // Resetear después de completar
+          translateX.value = 0;
+          translateY.value = 0;
         });
       } else {
         // Volver a la posición original

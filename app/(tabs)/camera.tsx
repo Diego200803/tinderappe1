@@ -35,11 +35,18 @@ export default function CameraScreen() {
     resetPhoto();
   };
 
-  const { gesture, animatedStyle } = useSwipeLogic({
+  const { gesture, animatedStyle, resetPosition } = useSwipeLogic({
     onSwipeRight: handleSavePhoto,
     onSwipeLeft: handleDiscardPhoto,
     threshold: 100,
   });
+
+  // Resetear posición cuando cambia la foto
+  React.useEffect(() => {
+    if (capturedPhoto) {
+      resetPosition();
+    }
+  }, [capturedPhoto]);
 
   if (!permission) {
     return (

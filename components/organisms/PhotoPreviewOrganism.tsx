@@ -32,8 +32,12 @@ export const PhotoPreviewOrganism: React.FC<PhotoPreviewOrganismProps> = ({
 
       <View style={styles.previewContainer}>
         <GestureDetector gesture={gesture}>
-          <Animated.View style={[styles.photoWrapper, animatedStyle]}>
-            <Image source={{ uri: photoUri }} style={styles.photo} />
+          <Animated.View style={[styles.photoWrapper, animatedStyle]} key={photoUri}>
+            <Image 
+              source={{ uri: photoUri }} 
+              style={styles.photo}
+              resizeMode="cover"
+            />
             
             <View style={styles.swipeIndicators}>
               <View style={styles.leftIndicator}>
