@@ -1,19 +1,29 @@
+//ActionButtons.tsx
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 
 interface ActionButtonsProps {
   onReject: () => void;
   onLike: () => void;
+  disabled?: boolean;
 }
 
-export const ActionButtons: React.FC<ActionButtonsProps> = ({ onReject, onLike }) => {
+export const ActionButtons: React.FC<ActionButtonsProps> = ({ onReject, onLike, disabled = false }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={onReject}>
+      <TouchableOpacity 
+        style={[styles.button, styles.rejectButton, disabled && styles.buttonDisabled]} 
+        onPress={onReject}
+        disabled={disabled}
+      >
         <Text style={styles.rejectIcon}>✕</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={[styles.button, styles.likeButton]} onPress={onLike}>
+      <TouchableOpacity 
+        style={[styles.button, styles.likeButton, disabled && styles.buttonDisabled]} 
+        onPress={onLike}
+        disabled={disabled}
+      >
         <Text style={styles.likeIcon}>♥</Text>
       </TouchableOpacity>
     </View>
@@ -56,5 +66,9 @@ const styles = StyleSheet.create({
   likeIcon: {
     fontSize: 30,
     color: '#fff',
+  },
+
+  buttonDisabled: {
+    opacity: 0.5,
   },
 });

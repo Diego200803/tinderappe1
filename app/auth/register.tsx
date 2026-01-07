@@ -9,6 +9,7 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     // Validaciones
-    if (!email || !password || !confirmPassword || !name || !age) {
+    if (!email || !password || !confirmPassword || !name || !age || !gender) {
       Alert.alert('Error', 'Por favor completa todos los campos');
       return;
     }
@@ -48,8 +49,8 @@ export default function RegisterScreen() {
 
     setLoading(true);
     try {
-      await register(email, password, name, ageNum);
-      router.replace('/(tabs)' as any);
+      await register(email, password, name, ageNum, gender);
+      router.replace('/(tabs)');
     } catch (error: any) {
       Alert.alert('Error', error.message || 'No se pudo registrar');
     } finally {
@@ -65,7 +66,7 @@ export default function RegisterScreen() {
         </TouchableOpacity>
         <Text style={styles.logo}>🔥</Text>
         <Text style={styles.title}>Crear Cuenta</Text>
-        <Text style={styles.subtitle}>Únete a Tinder hoy</Text>
+        <Text style={styles.subtitle}>Únete a FindLove hoy</Text>
       </View>
 
       <View style={styles.form}>
@@ -85,6 +86,30 @@ export default function RegisterScreen() {
           onChangeText={setAge}
           keyboardType="numeric"
         />
+
+        {/* Selector de Género */}
+        <View style={styles.genderContainer}>
+          <Text style={styles.genderLabel}>Género</Text>
+          <View style={styles.genderButtons}>
+            <TouchableOpacity
+              style={[styles.genderButton, gender === 'male' && styles.genderButtonActive]}
+              onPress={() => setGender('male')}
+            >
+              <Text style={[styles.genderButtonText, gender === 'male' && styles.genderButtonTextActive]}>
+                👨 Hombre
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.genderButton, gender === 'female' && styles.genderButtonActive]}
+              onPress={() => setGender('female')}
+            >
+              <Text style={[styles.genderButtonText, gender === 'female' && styles.genderButtonTextActive]}>
+                👩 Mujer
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
         <TextInput
           style={styles.input}
@@ -125,6 +150,15 @@ export default function RegisterScreen() {
             <Text style={styles.registerButtonText}>Registrarse</Text>
           )}
         </TouchableOpacity>
+
+        <View style={styles.exampleCredentials}>
+          <Text style={styles.exampleTitle}>💡 Ejemplo de registro:</Text>
+          <Text style={styles.exampleText}>Nombre: Tu nombre real</Text>
+          <Text style={styles.exampleText}>Edad: Tu edad (18+)</Text>
+          <Text style={styles.exampleText}>Género: Selecciona Hombre o Mujer</Text>
+          <Text style={styles.exampleText}>Email: tumail@ejemplo.com</Text>
+          <Text style={styles.exampleText}>Contraseña: mínimo 6 caracteres</Text>
+        </View>
 
         <View style={styles.termsContainer}>
           <Text style={styles.termsText}>
@@ -184,6 +218,40 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e0e0e0',
   },
+  genderContainer: {
+    marginBottom: 16,
+  },
+  genderLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 12,
+  },
+  genderButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  genderButton: {
+    flex: 1,
+    padding: 14,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#e0e0e0',
+    backgroundColor: '#f5f5f5',
+    alignItems: 'center',
+  },
+  genderButtonActive: {
+    borderColor: '#FE3C72',
+    backgroundColor: '#FFF0F5',
+  },
+  genderButtonText: {
+    fontSize: 15,
+    color: '#666',
+    fontWeight: '600',
+  },
+  genderButtonTextActive: {
+    color: '#FE3C72',
+  },
   registerButton: {
     backgroundColor: '#FE3C72',
     borderRadius: 25,
@@ -203,6 +271,25 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  exampleCredentials: {
+    marginTop: 20,
+    padding: 16,
+    backgroundColor: '#f0fdf4',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#bbf7d0',
+  },
+  exampleTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#166534',
+    marginBottom: 8,
+  },
+  exampleText: {
+    fontSize: 13,
+    color: '#16a34a',
+    marginBottom: 4,
   },
   termsContainer: {
     marginTop: 20,

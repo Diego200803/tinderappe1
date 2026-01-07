@@ -1,13 +1,23 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useMatch } from '../../context/MatchContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function MatchesScreen() {
   const { acceptedMatches, loading, loadAcceptedMatches } = useMatch();
 
+  // Cargar al montar el componente
   useEffect(() => {
     loadAcceptedMatches();
   }, []);
+
+  // Recargar cada vez que la pantalla gana foco
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('📱 Pantalla Matches enfocada, recargando...');
+      loadAcceptedMatches();
+    }, [])
+  );
 
   if (loading) {
     return (

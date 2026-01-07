@@ -1,5 +1,7 @@
+//MatchContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Profile, Match } from '../types/User';
+import { Profile } from '../types/User';
+import { Match } from '../types/Match';
 import { matchService } from '../services/matchService';
 import { useAuth } from './AuthContext';
 

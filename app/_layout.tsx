@@ -1,3 +1,4 @@
+//_layout.tsx
 import { Stack } from 'expo-router';
 import { AuthProvider } from '../context/AuthContext';
 import { MatchProvider } from '../context/MatchContext';

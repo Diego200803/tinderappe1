@@ -1,23 +1,34 @@
 {
   "expo": {
-    "name": "tinderappe1",
-    "slug": "tinderappe1",
+    "name": "FindLove",
+    "slug": "findlove",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "tinderappe1",
+    "scheme": "findlove",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "FindLove necesita acceso a la cámara para tomar fotos de perfil.",
+        "NSPhotoLibraryUsageDescription": "FindLove necesita acceso a tu galería para guardar fotos.",
+        "NSMicrophoneUsageDescription": "FindLove puede necesitar acceso al micrófono para videos de perfil."
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#FE3C72",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_MEDIA_IMAGES"
+      ],
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
@@ -33,10 +44,18 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#FE3C72",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#1a1a1a"
           }
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "FindLove necesita acceso a la cámara para tomar fotos de perfil.",
+          "microphonePermission": "FindLove puede necesitar acceso al micrófono para videos de perfil.",
+          "recordAudioAndroid": true
         }
       ]
     ],

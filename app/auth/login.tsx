@@ -19,7 +19,7 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       await login(email, password);
-      router.replace('/(tabs)' as any);
+      router.replace('/(tabs)');
     } catch (error: any) {
       Alert.alert('Error', error.message || 'No se pudo iniciar sesión');
     } finally {
@@ -31,7 +31,7 @@ export default function LoginScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.logo}>🔥</Text>
-        <Text style={styles.title}>Tinder</Text>
+        <Text style={styles.title}>FindLove</Text>
         <Text style={styles.subtitle}>Encuentra tu match perfecto</Text>
       </View>
 
@@ -75,16 +75,19 @@ export default function LoginScreen() {
 
         <TouchableOpacity 
           style={styles.registerButton}
-          onPress={() => router.push('/auth/register' as any)}
+          onPress={() => router.push('/auth/register')}
         >
           <Text style={styles.registerButtonText}>Crear cuenta nueva</Text>
         </TouchableOpacity>
 
-        <View style={styles.testCredentials}>
-          <Text style={styles.testTitle}>Credenciales de prueba:</Text>
-          <Text style={styles.testText}>Email: user1@tinder.com</Text>
-          <Text style={styles.testText}>Contraseña: 123456</Text>
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>ℹ️ Cómo usar:</Text>
+          <Text style={styles.infoText}>1. Crea una cuenta con tu email</Text>
+          <Text style={styles.infoText}>2. Selecciona tu género</Text>
+          <Text style={styles.infoText}>3. Inicia sesión con ese mismo email</Text>
+          <Text style={styles.infoText}>4. Verás perfiles según tu género</Text>
         </View>
+        
       </View>
     </View>
   );
@@ -176,23 +179,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  testCredentials: {
+  infoBox: {
     marginTop: 30,
     padding: 16,
-    backgroundColor: '#f0f9ff',
+    backgroundColor: '#e0f2fe',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#bfdbfe',
+    borderColor: '#bae6fd',
   },
-  testTitle: {
+  infoTitle: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#1e40af',
+    color: '#0369a1',
     marginBottom: 8,
   },
-  testText: {
+  infoText: {
     fontSize: 13,
-    color: '#3b82f6',
+    color: '#0284c7',
     marginBottom: 4,
   },
 });

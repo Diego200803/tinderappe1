@@ -19,29 +19,52 @@ export default function RequestsScreen() {
 
   const RequestCard = ({ match }: { match: Match }) => {
     const translateX = useSharedValue(0);
+    const isProcessing = useSharedValue(false);
 
     const handleAccept = () => {
+      console.log('✅ Aceptando match:', match.profile.name);
       respondToMatch(match.id, 'accept');
     };
 
     const handleReject = () => {
+      console.log('❌ Rechazando match:', match.profile.name);
       respondToMatch(match.id, 'reject');
     };
 
     const gesture = Gesture.Pan()
+      .onStart(() => {
+        // Verificar si ya está procesando
+        if (isProcessing.value) {
+          return;
+        }
+      })
       .onUpdate((event) => {
+        // Solo actualizar si no está procesando
+        if (isProcessing.value) {
+          return;
+        }
         translateX.value = event.translationX;
       })
       .onEnd((event) => {
+        // Prevenir múltiples swipes
+        if (isProcessing.value) {
+          return;
+        }
+
         if (event.translationX > 100) {
           // Swipe derecha - Aceptar
-          translateX.value = withTiming(400, { duration: 300 });
-          runOnJS(handleAccept)();
+          isProcessing.value = true;
+          translateX.value = withTiming(400, { duration: 300 }, () => {
+            runOnJS(handleAccept)();
+          });
         } else if (event.translationX < -100) {
           // Swipe izquierda - Rechazar
-          translateX.value = withTiming(-400, { duration: 300 });
-          runOnJS(handleReject)();
+          isProcessing.value = true;
+          translateX.value = withTiming(-400, { duration: 300 }, () => {
+            runOnJS(handleReject)();
+          });
         } else {
+          // Volver a posición original
           translateX.value = withTiming(0);
         }
       });
@@ -76,7 +99,7 @@ export default function RequestsScreen() {
             <Image source={{ uri: match.profile.photo }} style={styles.photo} />
             <View style={styles.info}>
               <Text style={styles.name}>{match.profile.name}, {match.profile.age}</Text>
-              <Text style={styles.bio}>{match.profile.bio}</Text>
+              <Text style={styles.bio} numberOfLines={2}>{match.profile.bio}</Text>
               <Text style={styles.hint}>← Desliza para rechazar | Desliza para aceptar →</Text>
             </View>
           </Animated.View>
@@ -114,6 +137,7 @@ export default function RequestsScreen() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <RequestCard match={item} />}
           contentContainerStyle={styles.list}
+          scrollEnabled={true}
         />
       )}
     </View>
@@ -157,6 +181,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginBottom: 20,
     height: 140,
+    position: 'relative',
   },
   actionBackground: {
     position: 'absolute',
@@ -165,6 +190,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 0,
   },
   acceptBackground: {
     backgroundColor: '#4CAF50',
@@ -187,6 +213,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    zIndex: 1,
   },
   photo: {
     width: 120,
