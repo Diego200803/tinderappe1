@@ -32,9 +32,8 @@ export const useGalleryStore = create<GalleryStore>((set, get) => ({
 
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPhotos));
-      console.log('✅ Photo saved to gallery:', newPhoto.id);
     } catch (error) {
-      console.error('Error saving photo to storage:', error);
+      // Error silencioso
     }
   },
 
@@ -44,9 +43,8 @@ export const useGalleryStore = create<GalleryStore>((set, get) => ({
 
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPhotos));
-      console.log('🗑️ Photo removed from gallery:', id);
     } catch (error) {
-      console.error('Error removing photo from storage:', error);
+      // Error silencioso
     }
   },
 
@@ -56,10 +54,9 @@ export const useGalleryStore = create<GalleryStore>((set, get) => ({
       if (stored) {
         const photos = JSON.parse(stored);
         set({ photos });
-        console.log('📂 Loaded photos from storage:', photos.length);
       }
     } catch (error) {
-      console.error('Error loading photos from storage:', error);
+      // Error silencioso
     }
   },
 
@@ -67,9 +64,8 @@ export const useGalleryStore = create<GalleryStore>((set, get) => ({
     set({ photos: [] });
     try {
       await AsyncStorage.removeItem(STORAGE_KEY);
-      console.log('🧹 Gallery cleared');
     } catch (error) {
-      console.error('Error clearing gallery:', error);
+      // Error silencioso
     }
   },
 }));

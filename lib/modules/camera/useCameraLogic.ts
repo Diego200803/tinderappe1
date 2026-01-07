@@ -13,7 +13,6 @@ export const useCameraLogic = () => {
 
   const takePicture = async () => {
     if (!cameraRef.current) {
-      console.warn('Camera ref not available');
       return null;
     }
 
@@ -24,13 +23,11 @@ export const useCameraLogic = () => {
       });
 
       if (photo) {
-        console.log('📸 Photo captured:', photo.uri);
         setCapturedPhoto(photo.uri);
         return photo.uri;
       }
       return null;
     } catch (error) {
-      console.error('Error taking picture:', error);
       return null;
     }
   };

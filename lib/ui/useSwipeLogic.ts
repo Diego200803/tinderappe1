@@ -1,3 +1,5 @@
+// lib/ui/useSwipeLogic.ts
+
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
 import { Gesture } from 'react-native-gesture-handler';
 

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useGalleryStore } from '../../lib/store/galleryStore';
 import { Button } from '../../components/atoms/Button';
+import { PhotoCard } from '../../components/molecules/PhotoCard';
 
 export default function GalleryScreen() {
   const router = useRouter();
@@ -43,15 +44,11 @@ export default function GalleryScreen() {
   };
 
   const renderPhoto = ({ item }: { item: any }) => (
-    <View style={styles.photoItem}>
-      <Image source={{ uri: item.uri }} style={styles.photoImage} />
-      <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() => handleDeletePhoto(item.id)}
-      >
-        <Text style={styles.deleteButtonText}>🗑️</Text>
-      </TouchableOpacity>
-    </View>
+    <PhotoCard
+      uri={item.uri}
+      onDelete={() => handleDeletePhoto(item.id)}
+      showDeleteButton={true}
+    />
   );
 
   return (
@@ -156,38 +153,6 @@ const styles = StyleSheet.create({
   },
   grid: {
     padding: 8,
-  },
-  photoItem: {
-    flex: 1,
-    margin: 4,
-    aspectRatio: 1,
-    maxWidth: '48%',
-    borderRadius: 12,
-    overflow: 'hidden',
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  photoImage: {
-    width: '100%',
-    height: '100%',
-  },
-  deleteButton: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    backgroundColor: 'rgba(255, 59, 48, 0.9)',
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deleteButtonText: {
-    fontSize: 16,
   },
   emptyContainer: {
     flex: 1,
